@@ -7,7 +7,6 @@ import numpy as np
 import os
 
 from agents.ppo import PPO
-from agents.sac import SAC
 from agents.ddpg import DDPG
 
 from utils.utils import make_transition, Dict, RunningMeanStd
@@ -15,8 +14,7 @@ os.makedirs('./model_weights', exist_ok=True)
 
 parser = ArgumentParser('parameters')
 
-parser.add_argument("--env_name", type=str, default = 'Humanoid-v2', help = "'Ant-v2','HalfCheetah-v2','Hopper-v2','Humanoid-v2','HumanoidStandup-v2',\
-          'InvertedDoublePendulum-v2', 'InvertedPendulum-v2' (default : Hopper-v2)")
+parser.add_argument("--env_name", type=str, default = 'Hopper-v2', help = "'Ant-v2','HalfCheetah-v2','Hopper-v2','Humanoid-v2' (default : Hopper-v2)")
 parser.add_argument("--algo", type=str, default = 'ppo', help = 'algorithm to adjust (default : ppo)')
 parser.add_argument('--train', type=bool, default=True, help="(default: True)")
 parser.add_argument('--render', type=bool, default=False, help="(default: False)")
@@ -49,8 +47,6 @@ state_rms = RunningMeanStd(state_dim)
 
 if args.algo == 'ppo' :
     agent = PPO(writer, device, state_dim, action_dim, agent_args)
-elif args.algo == 'sac' :
-    agent = SAC(writer, device, state_dim, action_dim, agent_args)
 elif args.algo == 'ddpg' :
     from utils.noise import OUNoise
     noise = OUNoise(action_dim,0)
